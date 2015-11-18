@@ -15,10 +15,6 @@ public class RandomQuicksort {
 			array[i] = (int) (Math.random() * size) + 1;
 	}
 	
-	public int getSize(){
-		return array.length;
-	}
-	
 	public int[] getArray(){
 		return array;
 	}
@@ -29,28 +25,28 @@ public class RandomQuicksort {
 
 	private void quicksort(int start, int end) {
 		if (start < end) {
-			int middle = partition(start, end);
-			quicksort(start, middle - 1);
+			int middle = partition(start, end);  // Partitions the array and then finds the where the pivot ended up
+			quicksort(start, middle - 1);		// Sorts the sides around it
 			quicksort(middle + 1, end);
 		}
 	}
 
 	private int partition(int start, int end) {
 
-		int pivot = array[start];
+		int pivot = array[start];			// Selects the first number as the pivot (it can be anything)
 
-		while (start < end) {
-
-			while (array[start] < pivot)
+		while (start < end) {				// We don't want overlap
+			
+			while (array[start] < pivot) 	// Moves the left pointer to a point where the number not suppose to be on that side, ie bigger than the pivot
 				start++;
 
-			while (array[end] > pivot)
+			while (array[end] > pivot)		// Moves the right pointer to a point where the number not suppose to be on that side, ie smaller than the pivot
 				end--;
 
-			if (array[start] == array[end])
+			if (array[start] == array[end])	// Do nothing if they are the same
 				end--;
 
-			else if (start < end)
+			else if (start < end)			// Swap the values at the pointers
 				swapValues(start, end);
 
 		}
@@ -58,18 +54,22 @@ public class RandomQuicksort {
 		return start;
 	}
 
-	private void swapValues(int a, int b) {
-		int temp = array[a];
+	private void swapValues(int a, int b) {		
+		int temp = array[a];				// Simple array swap
 		array[a] = array[b];
 		array[b] = temp;
 
 		try {
-			Thread.sleep(300);
+			Thread.sleep(100);				// Sleeps so update isn't "instant"
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		updater.update(array);
+		updater.update(array);				// Ultimately Prints 
 
+	}
+	
+	public interface ArrayUpdater {
+		public void update(int[] array);
 	}
 
 }
